@@ -27,6 +27,7 @@ const UserProvider = ({ children }) => {
         setLoading(false);
       }
     };
+    fetchUser();
   }, []);
 
   const updateUser = (userData) => {

@@ -34,11 +34,9 @@ const Login = ({ setCurrentPage }) => {
       });
       const { token } = res.data;
       if (token) {
-        console.log("if block");
         localStorage.setItem("token", token);
         updateUser(res.data);
         navigate("/dashboard");
-        console.log("Navigation");
       }
     } catch (err) {
       setError(

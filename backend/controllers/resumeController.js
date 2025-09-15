@@ -76,7 +76,7 @@ export const createResume = async (req, res) => {
       ...defaultResumeData,
       ...req.body,
     });
-    return res.status(201).json({ newResume });
+    return res.status(201).json(newResume);
   } catch (err) {
     return res
       .status(500)
@@ -89,7 +89,7 @@ export const getUserResumes = async (req, res) => {
     const resumes = await Resume.find({ userId: req.user._id }).sort({
       updatedAt: -1,
     });
-    return res.status(200).json({ resumes });
+    return res.status(200).json(resumes);
   } catch (err) {
     return res
       .status(500)
