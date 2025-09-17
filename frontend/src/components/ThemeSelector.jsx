@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
-import { resumeTemplates } from "../utils/data";
+import { useEffect, useRef, useState } from "react";
+import { DUMMY_RESUME_DATA, resumeTemplates } from "../utils/data";
 import Tabs from "./Tabs";
 import { Check } from "lucide-react";
 import { TemplateCard } from "./Cards";
+import RenderResume from "./RenderResume";
 
 const TAB_DATA = [{ label: "Templates" }];
 
@@ -35,14 +36,18 @@ const ThemeSelector = ({
     }
   };
 
+  useEffect(() => {
+    updatedBaseWidth();
+    window.addEventListener("resize", updatedBaseWidth);
+    return () => {
+      window.removeEventListener("resize", updatedBaseWidth);
+    };
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto px-4">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 p-4 sm:p-6 bg-gradient-to-r from-white to-violet-50 rounded-2xl border border-violet-100">
-        <Tabs
-          tabs={TAB_DATA}
-          activeTab={tabValue}
-          setActiveTab={setActiveTab}
-        />
+        <Tabs tabs={TAB_DATA} activeTab={tabValue} setActiveTab={setTabValue} />
 
         <button
           className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py- bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-black rounded-2xl hover:scale-105 transition-all shadow-lg hover:shadow-xl"
@@ -69,6 +74,18 @@ const ThemeSelector = ({
               />
             ))}
           </div>
+        </div>
+
+        {/* Right area */}
+        <div
+          className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 p-4 sm:p-6"
+          ref={resumeRef}
+        >
+          <RenderResume
+            templateId={selectedTemplate.theme || ""}
+            resumeData={resumeData || DUMMY_RESUME_DATA}
+            containerWidth={baseWidth}
+          />
         </div>
       </div>
     </div>
